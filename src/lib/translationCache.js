@@ -1,7 +1,7 @@
 const STORAGE_KEY = "ct-translate-cache-v3";
 const SESSION_LEGACY_KEY = "ct-translate-cache-v2";
 /** Bump when server/API prompts change so old cached lines are not reused. */
-export const TRANSLATION_CACHE_REVISION = "p5";
+export const TRANSLATION_CACHE_REVISION = "p8";
 
 const LEGACY_STORAGE_KEYS = ["ct-translate-cache-v1"];
 

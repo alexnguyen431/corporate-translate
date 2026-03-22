@@ -8,11 +8,11 @@ function scrollToTop() {
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-/** Keeps leading icons in a fixed column so section + column titles line up. */
+/** Leading emoji — width follows glyph so label stays close. */
 function HeadingIconSlot({ children, className = "" }) {
   return (
     <span
-      className={`flex h-[1.25em] w-8 shrink-0 items-center justify-center sm:w-9 ${className}`}
+      className={`inline-flex h-[1.25em] shrink-0 items-center leading-none ${className}`}
       aria-hidden
     >
       {children}
@@ -25,20 +25,20 @@ export default function Examples() {
 
   return (
     <section
-      className="mt-16 sm:mt-20 pt-10 border-t border-[#dadce0]"
+      className="mt-16 sm:mt-20 pt-10 border-t border-[#dadce0] text-left"
       aria-labelledby="suggestions-heading"
     >
       <h2
         id="suggestions-heading"
-        className="text-base sm:text-lg font-semibold text-[#202124] mb-8"
+        className="text-base sm:text-lg font-semibold text-[#202124] mb-8 text-left"
       >
         Try a suggestion
       </h2>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14">
-        <div>
-          <h3 className="text-[15px] font-semibold text-[#202124] mb-4 flex items-center gap-2">
-            <HeadingIconSlot className="text-[17px] leading-none sm:text-lg">
+        <div className="text-left">
+          <h3 className="text-[15px] font-semibold text-[#202124] mb-4 flex w-full items-center justify-start gap-1.5 text-left">
+            <HeadingIconSlot className="text-[17px] sm:text-lg">
               🗣️
             </HeadingIconSlot>
             Corporate Speak
@@ -65,9 +65,9 @@ export default function Examples() {
           </ul>
         </div>
 
-        <div>
-          <h3 className="text-[15px] font-semibold text-[#202124] mb-4 flex items-center gap-2">
-            <HeadingIconSlot className="text-[17px] leading-none sm:text-lg">
+        <div className="text-left">
+          <h3 className="text-[15px] font-semibold text-[#202124] mb-4 flex w-full items-center justify-start gap-1.5 text-left">
+            <HeadingIconSlot className="text-[17px] sm:text-lg">
               💀
             </HeadingIconSlot>
             Straight Talk

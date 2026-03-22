@@ -13,6 +13,7 @@ import {
   makeCacheKey,
   saveTranslationCache,
 } from "../lib/translationCache.js";
+import { isBundledSuggestionLine } from "../lib/suggestionLines.js";
 import { stripOuterQuotationMarks } from "../lib/stripOuterQuotes.js";
 
 const DIR = {
@@ -57,6 +58,11 @@ export function TranslationProvider({ children }) {
     const snap = translationPairRef.current;
     if (snap && direction === snap.direction && t === snap.text) {
       setOutput(snap.output);
+      return;
+    }
+    if (isBundledSuggestionLine(direction, t)) {
+      translationPairRef.current = null;
+      setOutput("");
       return;
     }
     const cache = loadTranslationCache();
@@ -107,25 +113,16 @@ export function TranslationProvider({ children }) {
       const cached = cache.get(cacheKey);
       const fromSuggestion = overrides?.fromSuggestion === true;
 
-      if (cached !== undefined) {
+      // Bundled suggestion lines + chip clicks must not use localStorage (stale Anthropic replies).
+      if (
+        cached !== undefined &&
+        !fromSuggestion &&
+        !isBundledSuggestionLine(dir, trimmed)
+      ) {
         if (overrides?.direction != null) setDirection(overrides.direction);
         if (overrides?.text !== undefined) setInput(overrides.text);
         setError("");
         const out = stripOuterQuotationMarks(cached);
-        if (fromSuggestion) {
-          translationPairRef.current = null;
-          setLoading(true);
-          setOutput("");
-          await new Promise((r) => setTimeout(r, MIN_SUGGESTION_LOAD_MS));
-          translationPairRef.current = {
-            direction: dir,
-            text: trimmed,
-            output: out,
-          };
-          setOutput(out);
-          setLoading(false);
-          return;
-        }
         translationPairRef.current = {
           direction: dir,
           text: trimmed,

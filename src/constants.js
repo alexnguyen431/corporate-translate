@@ -7,7 +7,7 @@ export const COOLDOWN_MS = TESTING_NO_LIMITS ? 0 : 3000;
 /** Suggestion chips — Corporate → Straight Talk */
 export const CORPORATE_SPEAK_SUGGESTIONS = [
   "Let's circle back",
-  "Let's align cross-functionally before moving forward",
+  "Let's take this offline",
   "We should double-click on that and unpack the details",
   "Let's not boil the ocean here",
   "Can we socialize this with stakeholders",
@@ -21,7 +21,7 @@ export const CORPORATE_SPEAK_SUGGESTIONS = [
 /** Suggestion chips — Straight Talk → Corporate */
 export const STRAIGHT_TALK_SUGGESTIONS = [
   "I have no idea what's going on",
-  "We're just talking in circles",
+  "Please stop talking in this meeting.",
   "This meeting could have been a Slack message",
   "Bitch, what?",
   "We're making this way more complicated than it needs to be",

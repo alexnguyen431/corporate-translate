@@ -1,10 +1,10 @@
 {
-  "promptRevision": 1,
+  "promptRevision": 2,
   "generatedAt": "2026-03-22T06:38:49.322Z",
   "entries": {
     "corporate-to-straight": {
       "Let's circle back": "I'm avoiding this decision until it becomes someone else's problem or quietly dies in my inbox.",
-      "Let's align cross-functionally before moving forward": "We need to have a meeting about having meetings because nobody wants to be the one who made a decision without covering their ass with consensus from people who will definitely not be held accountable if this goes sideways.",
+      "Let's take this offline": "Please stop talking in this meeting.",
       "We should double-click on that and unpack the details": "I want to waste 45 minutes talking in circles about something we could resolve in a 30-second email, but saying \"double-click\" makes me sound like I have a strategy when really I just have anxiety and a need to justify my salary.",
       "Let's not boil the ocean here": "Let's do the absolute bare minimum and call it strategic focus.",
       "Can we socialize this with stakeholders": "We need to find someone else to blame when this inevitably crashes and burns, so let's drag a bunch of important people into a meeting where they can pretend they had input while we do exactly what we planned anyway.",
@@ -16,7 +16,7 @@
     },
     "straight-to-corporate": {
       "I have no idea what's going on": "I'm looking for additional context and clarity on the current situation to ensure I'm properly aligned on our direction and next steps.",
-      "We're just talking in circles": "We're revisiting the same themes without driving to resolution—I'd like to time-box this discussion and align on clear next steps to ensure we're moving forward with intention.",
+      "Please stop talking in this meeting.": "I'd like to propose we continue this dialogue in a separate forum to ensure we're maximizing the value of everyone's time in today's session and maintaining focus on our aligned agenda items.",
       "This meeting could have been a Slack message": "We could have addressed this asynchronously and achieved the same outcomes with greater efficiency.",
       "Bitch, what?": "I'm going to need some additional context to move forward effectively on this.",
       "We're making this way more complicated than it needs to be": "We're overengineering this solution and need to streamline our approach to drive faster execution.",

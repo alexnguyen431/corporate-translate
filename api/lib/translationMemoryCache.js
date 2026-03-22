@@ -5,7 +5,7 @@ import crypto from "node:crypto";
  * Keys are SHA-256 hashes; values expire. Clears on cold start (e.g. new serverless instance).
  * Bump CACHE_REVISION when MODEL or SYSTEM_PROMPTS change.
  */
-const CACHE_REVISION = "m1";
+const CACHE_REVISION = "m4";
 const TTL_MS = 6 * 60 * 60 * 1000;
 const MAX_ENTRIES = 400;
 
