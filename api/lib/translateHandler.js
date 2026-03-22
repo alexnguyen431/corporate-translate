@@ -8,6 +8,10 @@ import {
   isPromptInjectionAttempt,
 } from "./gibberish.js";
 import { getBundledTranslation } from "./suggestionBundle.js";
+import {
+  getSharedTranslation,
+  setSharedTranslation,
+} from "./translationMemoryCache.js";
 
 /** Keep in sync with `src/constants.js` TESTING_NO_LIMITS */
 const TESTING_NO_LIMITS = false;
@@ -197,6 +201,17 @@ export async function handleTranslate({
     return { translation: stripOuterQuotationMarks(bundled) };
   }
 
+  const sharedHit = getSharedTranslation(direction, text);
+  if (sharedHit !== null) {
+    const salt = process.env.IP_HASH_SALT || "";
+    logRequest({
+      ipHash: hashIp(clientIp, salt),
+      charCount: text.length,
+      event: "translate-shared-cache",
+    });
+    return { translation: sharedHit };
+  }
+
   if (!TESTING_NO_LIMITS) {
     try {
       await rateLimiter.consume(clientIp);
@@ -247,5 +262,7 @@ export async function handleTranslate({
   const rawOut =
     msg.content?.map((b) => (b.type === "text" ? b.text : "")).join("") ?? "";
 
-  return { translation: stripOuterQuotationMarks(rawOut) };
+  const cleaned = stripOuterQuotationMarks(rawOut);
+  setSharedTranslation(direction, text, cleaned);
+  return { translation: cleaned };
 }
