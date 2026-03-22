@@ -1,0 +1,30 @@
+{
+  "promptRevision": 1,
+  "generatedAt": "2026-03-22T06:38:49.322Z",
+  "entries": {
+    "corporate-to-straight": {
+      "Let's circle back": "I'm avoiding this decision until it becomes someone else's problem or quietly dies in my inbox.",
+      "Let's align cross-functionally before moving forward": "We need to have a meeting about having meetings because nobody wants to be the one who made a decision without covering their ass with consensus from people who will definitely not be held accountable if this goes sideways.",
+      "We should double-click on that and unpack the details": "I want to waste 45 minutes talking in circles about something we could resolve in a 30-second email, but saying \"double-click\" makes me sound like I have a strategy when really I just have anxiety and a need to justify my salary.",
+      "Let's not boil the ocean here": "Let's do the absolute bare minimum and call it strategic focus.",
+      "Can we socialize this with stakeholders": "We need to find someone else to blame when this inevitably crashes and burns, so let's drag a bunch of important people into a meeting where they can pretend they had input while we do exactly what we planned anyway.",
+      "We need to operationalize a scalable solution": "We have no idea what we're doing but need it to sound like we have a plan that can handle more than three customers without everything catching fire.",
+      "Let's zoom out and anchor on the north star": "I'm panicking because we're lost in the weeds of actual work, so let me invoke some inspirational bullshit to buy time while I figure out what we're supposed to be doing.",
+      "We're exploring a few strategic options at the moment": "We have no idea what we're doing and are frantically throwing spaghetti at the wall while pretending this chaos is actually a thoughtful deliberative process.",
+      "Let's create a framework to drive alignment across teams": "I want to build a bureaucratic maze so complex that everyone gets lost trying to find who's actually supposed to make decisions, then call the resulting paralysis \"collaboration.\"",
+      "We should prioritize high-impact initiatives that move the needle": "We have no idea what we're doing but saying \"high-impact\" and \"move the needle\" makes it sound like we've thought this through and have metrics that definitely exist somewhere."
+    },
+    "straight-to-corporate": {
+      "I have no idea what's going on": "I'm looking for additional context and clarity on the current situation to ensure I'm properly aligned on our direction and next steps.",
+      "We're just talking in circles": "We're revisiting the same themes without driving to resolution—I'd like to time-box this discussion and align on clear next steps to ensure we're moving forward with intention.",
+      "This meeting could have been a Slack message": "We could have addressed this asynchronously and achieved the same outcomes with greater efficiency.",
+      "Bitch, what?": "I'm going to need some additional context to move forward effectively on this.",
+      "We're making this way more complicated than it needs to be": "We're overengineering this solution and need to streamline our approach to drive faster execution.",
+      "Nothing is actually happening right now": "We're experiencing limited forward momentum on our current initiatives and need to drive more tangible outcomes to maintain strategic alignment with our roadmap.",
+      "The f are you talking about?": "I'm not tracking the context you're referencing—could you help me get aligned on what we're discussing here?",
+      "We're stuck and nobody wants to say it": "We seem to be revisiting the same themes without clear convergence, and I think we need to acknowledge where we are in the process and drive toward concrete next steps to move this forward.",
+      "Wait… what are you even saying right now?": "Could you help me understand the specific point you're driving at? I want to make sure we're aligned on the core issue before we move forward.",
+      "This is not going to work": "This approach isn't viable given our current constraints and objectives."
+    }
+  }
+}

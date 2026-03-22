@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  @apply text-[#202124] min-h-screen bg-white font-sans;
+}
+
+@layer utilities {
+  .tap-target {
+    @apply min-h-11 min-w-11 inline-flex items-center justify-center;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
