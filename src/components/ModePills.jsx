@@ -15,7 +15,7 @@ const MODES = [
 export default function ModePills() {
   return (
     <div
-      className="flex flex-wrap gap-2 sm:gap-2.5 mb-5 sm:mb-6"
+      className="mode-pills-desktop-only flex flex-wrap gap-2 sm:gap-2.5 mb-5 sm:mb-6"
       role="tablist"
       aria-label="Input mode"
     >

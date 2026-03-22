@@ -11,6 +11,17 @@ body {
 }
 
 @layer utilities {
+  /**
+   * Mode pills: hide below lg (1024px). Belt-and-suspenders with Tailwind so
+   * pills stay hidden on phones/tablets even if an old bundle or CSS order
+   * breaks `hidden md:flex` on production.
+   */
+  @media (max-width: 1023.98px) {
+    .mode-pills-desktop-only {
+      display: none !important;
+    }
+  }
+
   .tap-target {
     @apply min-h-11 min-w-11 inline-flex items-center justify-center;
   }
