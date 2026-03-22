@@ -79,8 +79,18 @@ export default async function handler(req, res) {
     }
     return res.status(200).json({ translation: result.translation });
   } catch (e) {
-    const status = e.status || 500;
-    const msg = status === 500 ? "Something went wrong" : e.message;
-    return res.status(status).json({ error: msg });
+    const status = typeof e?.status === "number" ? e.status : 500;
+    console.error("[api/translate]", status);
+    const safe =
+      status === 400
+        ? e.message || "Invalid request"
+        : status === 403
+          ? "Forbidden"
+          : status === 405
+            ? "Method not allowed"
+            : status === 429
+              ? "Too many requests. Try again later."
+              : "Something went wrong";
+    return res.status(status).json({ error: safe });
   }
 }

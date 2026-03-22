@@ -1,5 +1,5 @@
-/** Set to `false` for production: restores 500 char max + 3s client cooldown */
-export const TESTING_NO_LIMITS = true;
+/** Set to `true` only for local stress-testing (disables char cap + cooldown). */
+export const TESTING_NO_LIMITS = false;
 
 export const MAX_CHARS = TESTING_NO_LIMITS ? 50000 : 500;
 export const COOLDOWN_MS = TESTING_NO_LIMITS ? 0 : 3000;

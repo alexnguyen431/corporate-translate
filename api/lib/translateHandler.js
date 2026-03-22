@@ -2,15 +2,27 @@ import crypto from "node:crypto";
 import Anthropic from "@anthropic-ai/sdk";
 import { RateLimiterMemory } from "rate-limiter-flexible";
 import { MODEL, SYSTEM_PROMPTS } from "./prompts.js";
+import {
+  FALLBACK_REPLY,
+  isLikelyGibberish,
+  isPromptInjectionAttempt,
+} from "./gibberish.js";
 import { getBundledTranslation } from "./suggestionBundle.js";
 
 /** Keep in sync with `src/constants.js` TESTING_NO_LIMITS */
-const TESTING_NO_LIMITS = true;
+const TESTING_NO_LIMITS = false;
 const MAX_CHARS = TESTING_NO_LIMITS ? 50000 : 500;
 
+/** Anthropic-backed translations only (bundled suggestions skip this). */
 const rateLimiter = new RateLimiterMemory({
   points: 10,
   duration: 3600,
+});
+
+/** Cheap bundled responses: prevents scripted abuse of /api/translate without touching Anthropic. */
+const bundledRateLimiter = new RateLimiterMemory({
+  points: 60,
+  duration: 60,
 });
 
 const BOT_UA = /curl\/|wget\/|python-requests|scrapy|aiohttp|Go-http|java\/|httpclient/i;
@@ -144,8 +156,38 @@ export async function handleTranslate({
   const { text } = parsed;
   const clientIp = ip || getClientIp(headers);
 
+  if (isPromptInjectionAttempt(text) || isLikelyGibberish(text)) {
+    if (!TESTING_NO_LIMITS) {
+      try {
+        await bundledRateLimiter.consume(clientIp);
+      } catch {
+        const err = new Error("Too many requests. Try again in a minute.");
+        err.status = 429;
+        throw err;
+      }
+    }
+    const salt = process.env.IP_HASH_SALT || "";
+    logRequest({
+      ipHash: hashIp(clientIp, salt),
+      charCount: text.length,
+      event: isPromptInjectionAttempt(text)
+        ? "translate-blocked"
+        : "translate-gibberish",
+    });
+    return { translation: FALLBACK_REPLY[direction] };
+  }
+
   const bundled = getBundledTranslation(direction, text);
   if (bundled !== null) {
+    if (!TESTING_NO_LIMITS) {
+      try {
+        await bundledRateLimiter.consume(clientIp);
+      } catch {
+        const err = new Error("Too many requests. Try again in a minute.");
+        err.status = 429;
+        throw err;
+      }
+    }
     const salt = process.env.IP_HASH_SALT || "";
     logRequest({
       ipHash: hashIp(clientIp, salt),
@@ -167,7 +209,8 @@ export async function handleTranslate({
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
-    const err = new Error("Service misconfigured");
+    console.error("[translate] Missing ANTHROPIC_API_KEY");
+    const err = new Error("Something went wrong");
     err.status = 500;
     throw err;
   }
@@ -190,14 +233,15 @@ export async function handleTranslate({
       messages: [{ role: "user", content: text }],
     });
   } catch (e) {
+    console.error("[translate] upstream", e?.status, e?.name);
     if (e?.status === 429) {
-      const err = new Error(
-        "Anthropic rate limit reached for your account. Wait a minute or reduce how many translations you run at once.",
-      );
+      const err = new Error("Too many requests. Try again later.");
       err.status = 429;
       throw err;
     }
-    throw e;
+    const err = new Error("Something went wrong");
+    err.status = 500;
+    throw err;
   }
 
   const rawOut =

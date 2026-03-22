@@ -29,17 +29,22 @@ app.post("/api/translate", async (req, res) => {
     }
     return res.status(200).json({ translation: result.translation });
   } catch (e) {
-    console.error("[translate]", e?.message || e);
     const status =
       typeof e?.status === "number" && e.status >= 400 && e.status < 600
         ? e.status
         : 500;
-    const dev = process.env.NODE_ENV !== "production";
-    const msg =
-      status === 500 && !dev
-        ? "Something went wrong"
-        : e?.message || "Something went wrong";
-    return res.status(status).json({ error: msg });
+    console.error("[translate]", status, e?.message || e);
+    const safe =
+      status === 400
+        ? e.message || "Invalid request"
+        : status === 403
+          ? "Forbidden"
+          : status === 405
+            ? "Method not allowed"
+            : status === 429
+              ? "Too many requests. Try again later."
+              : "Something went wrong";
+    return res.status(status).json({ error: safe });
   }
 });
 
