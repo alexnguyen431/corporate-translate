@@ -31,7 +31,6 @@ export function TranslationProvider({ children }) {
   const [output, setOutput] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [holdOn, setHoldOn] = useState(false);
   const [honeypot, setHoneypot] = useState("");
   const [cooldownLeft, setCooldownLeft] = useState(0);
 
@@ -98,7 +97,6 @@ export function TranslationProvider({ children }) {
         if (overrides?.direction != null) setDirection(overrides.direction);
         if (overrides?.text !== undefined) setInput(overrides.text);
         setError("");
-        setHoldOn(false);
         const out = stripOuterQuotationMarks(cached);
         if (fromSuggestion) {
           translationPairRef.current = null;
@@ -125,8 +123,6 @@ export function TranslationProvider({ children }) {
 
       const now = Date.now();
       if (now - lastRequestRef.current < COOLDOWN_MS) {
-        setHoldOn(true);
-        setTimeout(() => setHoldOn(false), 1200);
         return;
       }
 
@@ -134,7 +130,6 @@ export function TranslationProvider({ children }) {
       if (overrides?.text !== undefined) setInput(overrides.text);
 
       setError("");
-      setHoldOn(false);
       translationPairRef.current = null;
       setLoading(true);
       setOutput("");
@@ -241,7 +236,6 @@ export function TranslationProvider({ children }) {
       setOutput,
       loading,
       error,
-      holdOn,
       honeypot,
       setHoneypot,
       cooldownLeft,
@@ -257,7 +251,6 @@ export function TranslationProvider({ children }) {
       output,
       loading,
       error,
-      holdOn,
       honeypot,
       cooldownLeft,
       translate,

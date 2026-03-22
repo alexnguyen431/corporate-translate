@@ -1,16 +1,21 @@
-function LangChip({ children, active, onClick }) {
+function LangChip({ active, onClick, label }) {
   return (
     <button
       type="button"
       onClick={onClick}
-      className={[
-        "inline-flex items-center shrink-0 px-1.5 py-1 rounded-sm text-[15px] sm:text-base transition-colors",
-        active
-          ? "text-[#1a73e8] font-medium border-b-[3px] border-[#1a73e8] pb-1 -mb-[1px]"
-          : "text-[#5f6368] font-normal hover:text-[#202124]",
-      ].join(" ")}
+      title={label}
+      className="flex min-w-0 flex-1 items-center justify-center px-0.5 py-1 sm:px-1.5"
     >
-      {children}
+      <span
+        className={[
+          "inline-block text-[13px] leading-snug transition-colors sm:text-base",
+          active
+            ? "font-semibold text-[#1a73e8]"
+            : "font-normal text-[#5f6368] hover:text-[#202124]",
+        ].join(" ")}
+      >
+        {label}
+      </span>
     </button>
   );
 }
@@ -31,22 +36,42 @@ export default function LanguageBar({
     if (direction !== DIR.STC) swapDirection();
   }
 
-  return (
-    <div className="flex items-stretch bg-white border-b border-[#dadce0] min-h-[56px]">
-      <div className="flex-1 flex items-center justify-center gap-1 sm:gap-2 px-1 sm:px-3 overflow-x-auto no-scrollbar min-w-0">
-        <LangChip active={sourceIsCorporate} onClick={ensureCTS}>
-          Corporate Speak
-        </LangChip>
-        <LangChip active={!sourceIsCorporate} onClick={ensureSTC}>
-          Straight Talk
-        </LangChip>
-      </div>
+  const sourceLabel = sourceIsCorporate ? "Corporate Speak" : "Straight Talk";
+  const targetLabel = targetIsStraight ? "Straight Talk" : "Corporate Speak";
 
-      <div className="flex items-center justify-center px-1 sm:px-2 shrink-0 border-x border-[#eceff1] bg-[#fafafa]">
+  return (
+    <div className="flex items-stretch bg-white border-b border-[#dadce0] min-h-[52px] sm:min-h-[56px]">
+      {/* Mobile: current source only — tap swaps direction (same outcome as desktop chip + swap) */}
+      <div className="flex flex-1 items-center justify-center px-2 min-w-0 lg:hidden">
         <button
           type="button"
           onClick={swapDirection}
-          className="tap-target w-11 h-11 rounded-full text-[#5f6368] hover:bg-[#f1f3f4] text-[22px] leading-none"
+          className="max-w-full text-center text-[13px] font-semibold leading-snug text-[#1a73e8]"
+          title={`Source: ${sourceLabel}. Tap to swap with target.`}
+        >
+          {sourceLabel}
+        </button>
+      </div>
+
+      {/* Desktop: both source options */}
+      <div className="hidden lg:flex flex-1 items-center justify-center gap-2 px-3 min-w-0">
+        <LangChip
+          active={sourceIsCorporate}
+          onClick={ensureCTS}
+          label="Corporate Speak"
+        />
+        <LangChip
+          active={!sourceIsCorporate}
+          onClick={ensureSTC}
+          label="Straight Talk"
+        />
+      </div>
+
+      <div className="flex items-center justify-center px-0.5 sm:px-2 shrink-0 border-x border-[#eceff1] bg-[#fafafa]">
+        <button
+          type="button"
+          onClick={swapDirection}
+          className="tap-target w-10 h-10 sm:w-11 sm:h-11 rounded-full text-[#5f6368] hover:bg-[#f1f3f4] text-xl sm:text-[22px] leading-none"
           title="Swap languages"
           aria-label="Swap languages"
         >
@@ -54,13 +79,30 @@ export default function LanguageBar({
         </button>
       </div>
 
-      <div className="flex-1 flex items-center justify-center gap-1 sm:gap-2 px-1 sm:px-3 overflow-x-auto no-scrollbar min-w-0">
-        <LangChip active={targetIsStraight} onClick={ensureCTS}>
-          Straight Talk
-        </LangChip>
-        <LangChip active={!targetIsStraight} onClick={ensureSTC}>
-          Corporate Speak
-        </LangChip>
+      {/* Mobile: current target only */}
+      <div className="flex flex-1 items-center justify-center px-2 min-w-0 lg:hidden">
+        <button
+          type="button"
+          onClick={swapDirection}
+          className="max-w-full text-center text-[13px] font-semibold leading-snug text-[#1a73e8]"
+          title={`Target: ${targetLabel}. Tap to swap with source.`}
+        >
+          {targetLabel}
+        </button>
+      </div>
+
+      {/* Desktop: both target options */}
+      <div className="hidden lg:flex flex-1 items-center justify-center gap-2 px-3 min-w-0">
+        <LangChip
+          active={targetIsStraight}
+          onClick={ensureCTS}
+          label="Straight Talk"
+        />
+        <LangChip
+          active={!targetIsStraight}
+          onClick={ensureSTC}
+          label="Corporate Speak"
+        />
       </div>
     </div>
   );

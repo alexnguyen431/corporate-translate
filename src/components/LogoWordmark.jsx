@@ -21,14 +21,14 @@ export function LogoWordmark({ className = "" }) {
           <span
             key={`${ch}-${i}`}
             style={{ color: CORPORATE_COLORS[i] ?? "#4285F4" }}
-            className="font-medium text-[19px] sm:text-[22px] tracking-tight"
+            className="font-medium text-[19px] sm:text-[22px] tracking-tight leading-none"
           >
             {ch}
           </span>
         ))}
       </span>
       <span
-        className="text-[#5f6368] shrink-0 select-none font-sans font-semibold whitespace-nowrap text-[clamp(0.95rem,2.8vw,1.35rem)] tracking-tight lowercase"
+        className="text-[#5f6368] shrink-0 select-none font-sans font-semibold whitespace-nowrap text-[19px] sm:text-[22px] tracking-tight lowercase leading-none"
         aria-hidden="true"
       >
         translate

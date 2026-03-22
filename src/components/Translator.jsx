@@ -29,7 +29,6 @@ export default function Translator() {
     output,
     loading,
     error,
-    holdOn,
     honeypot,
     setHoneypot,
     cooldownLeft,
@@ -50,13 +49,6 @@ export default function Translator() {
     !input.trim() ||
     input.trim().length > MAX_CHARS ||
     cooldownLeft > 0;
-
-  const subtleStatus =
-    !error && (holdOn || cooldownLeft > 0)
-      ? holdOn
-        ? "Hold on…"
-        : `Ready again in ${(cooldownLeft / 1000).toFixed(1)}s`
-      : null;
 
   const randomPromptPool = [
     ...CORPORATE_SPEAK_SUGGESTIONS.map((text) => ({
@@ -86,7 +78,7 @@ export default function Translator() {
   return (
     <section id="translator-section" aria-label="Translation" className="space-y-4">
       {/* Main card — matches translate product: one shell, split panels */}
-      <div className="rounded-2xl border border-[#dadce0] bg-white overflow-hidden shadow-card max-w-full">
+      <div className="rounded-2xl border-[3px] border-[#dadce0] bg-white overflow-hidden shadow-card max-w-full transition-[box-shadow,border-color] duration-200 ease-out hover:shadow-card-hover focus-within:border-[#1a73e8] focus-within:shadow-card-hover">
         <LanguageBar
           direction={direction}
           DIR={DIR}
@@ -245,9 +237,6 @@ export default function Translator() {
         </div>
       </div>
 
-      {subtleStatus && (
-        <p className="text-center text-sm text-[#5f6368]">{subtleStatus}</p>
-      )}
       {error && (
         <p className="text-center text-sm text-red-600">{error}</p>
       )}
