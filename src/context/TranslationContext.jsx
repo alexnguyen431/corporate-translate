@@ -45,16 +45,30 @@ export function TranslationProvider({ children }) {
     };
   }, []);
 
+  /** Restore output from the last pair or from local translation cache (no API). */
   useEffect(() => {
     if (loading) return;
-    const snap = translationPairRef.current;
-    if (!snap) return;
     const t = input.trim();
-    if (direction === snap.direction && t === snap.text) {
-      setOutput(snap.output);
-    } else {
+    if (!t.length) {
+      translationPairRef.current = null;
       setOutput("");
+      return;
     }
+    const snap = translationPairRef.current;
+    if (snap && direction === snap.direction && t === snap.text) {
+      setOutput(snap.output);
+      return;
+    }
+    const cache = loadTranslationCache();
+    const hit = cache.get(makeCacheKey(direction, t));
+    if (hit !== undefined) {
+      const out = stripOuterQuotationMarks(hit);
+      translationPairRef.current = { direction, text: t, output: out };
+      setOutput(out);
+      return;
+    }
+    translationPairRef.current = null;
+    setOutput("");
   }, [input, direction, loading]);
 
   const startCooldown = useCallback(() => {

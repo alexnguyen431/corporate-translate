@@ -18,7 +18,7 @@ import {
 
 function placeholderFor(direction, DIR) {
   if (direction === DIR.CTS) return "Paste the corporate speak…";
-  return "Say what you mean, plainly…";
+  return "Say what you mean, straight up";
 }
 
 export default function Translator() {
@@ -149,14 +149,6 @@ export default function Translator() {
                 <span className="tabular-nums hidden sm:inline">
                   {input.length} / {MAX_CHARS}
                 </span>
-                <button
-                  type="button"
-                  className="hidden sm:inline-flex items-center gap-0.5 opacity-50 cursor-not-allowed font-medium"
-                  disabled
-                >
-                  Advanced
-                  <span className="inline-block w-0 overflow-hidden">▼</span>
-                </button>
                 <button
                   type="button"
                   className="tap-target w-10 h-10 rounded-full opacity-50 cursor-not-allowed hidden sm:inline-flex"
