@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useLayoutEffect, useRef, useState } from "react";
 import { useTranslation } from "../context/TranslationContext.jsx";
 import {
   CORPORATE_SPEAK_SUGGESTIONS,
@@ -41,8 +41,46 @@ export default function Translator() {
   } = useTranslation();
 
   const [copied, setCopied] = useState(false);
+  const sourceTextareaRef = useRef(null);
 
   const placeholder = placeholderFor(direction, DIR);
+
+  const adjustSourceTextareaHeight = useCallback(() => {
+    const el = sourceTextareaRef.current;
+    if (!el) return;
+    const maxPx =
+      typeof window !== "undefined"
+        ? Math.min(Math.round(window.innerHeight * 0.5), 360)
+        : 360;
+    const minPxBase =
+      typeof window !== "undefined" &&
+      window.matchMedia("(min-width: 1024px)").matches
+        ? 240
+        : 200;
+
+    /**
+     * Measure at the default height — do not collapse to 0 first (that inflates
+     * scrollHeight in some engines so the box grows on the first keystroke).
+     */
+    el.style.overflowY = "hidden";
+    el.style.height = `${minPxBase}px`;
+    const needed = el.scrollHeight;
+    const next = Math.min(maxPx, Math.max(minPxBase, needed));
+    el.style.height = `${next}px`;
+    el.style.overflowY = needed > maxPx ? "auto" : "hidden";
+  }, [input]);
+
+  useLayoutEffect(() => {
+    adjustSourceTextareaHeight();
+  }, [adjustSourceTextareaHeight]);
+
+  useLayoutEffect(() => {
+    function onResize() {
+      adjustSourceTextareaHeight();
+    }
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, [adjustSourceTextareaHeight]);
 
   const disabledTranslate =
     loading ||
@@ -87,30 +125,38 @@ export default function Translator() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2">
           {/* Source — white */}
-          <div className="relative flex flex-col min-h-[220px] lg:min-h-[280px] bg-white border-b lg:border-b-0 lg:border-r border-[#dadce0]">
-            {input.trim().length > 0 && (
-              <button
-                type="button"
-                onClick={clearInput}
-                className="absolute top-3 right-3 z-[1] tap-target w-9 h-9 rounded-full text-[#5f6368] hover:bg-[#f1f3f4] text-xl leading-none"
-                aria-label="Clear"
-              >
-                ×
-              </button>
-            )}
-            <label className="sr-only" htmlFor="ct-input">
-              Source text
-            </label>
-            <textarea
-              id="ct-input"
-              className="flex-1 w-full resize-none bg-transparent px-4 pt-4 pb-2 pr-12 text-[22px] sm:text-[24px] leading-[1.35] text-[#202124] placeholder:text-[#70757a] focus:outline-none min-h-[200px] lg:min-h-[240px]"
-              placeholder={placeholder}
-              value={input}
-              onChange={(e) => setInput(e.target.value.slice(0, MAX_CHARS))}
-              onKeyDown={handleInputKeyDown}
-              spellCheck
-              maxLength={MAX_CHARS}
-            />
+          <div className="relative flex min-h-[220px] flex-col bg-white border-b border-[#dadce0] lg:min-h-[280px] lg:border-b-0 lg:border-r">
+            <div className="flex min-h-0 flex-1 flex-col">
+              <label className="sr-only" htmlFor="ct-input">
+                Source text
+              </label>
+              <div className="relative px-4 pt-4">
+                <textarea
+                  ref={sourceTextareaRef}
+                  id="ct-input"
+                  rows={1}
+                  className="w-full resize-none bg-transparent pb-2 text-[22px] sm:text-[24px] leading-[1.35] text-[#202124] placeholder:text-[#70757a] focus:outline-none"
+                  placeholder={placeholder}
+                  value={input}
+                  onChange={(e) => {
+                    setInput(e.target.value.slice(0, MAX_CHARS));
+                  }}
+                  onKeyDown={handleInputKeyDown}
+                  spellCheck
+                  maxLength={MAX_CHARS}
+                />
+                {input.trim().length > 0 && (
+                  <button
+                    type="button"
+                    onClick={clearInput}
+                    className="absolute bottom-3 left-3 z-[1] inline-flex min-h-10 items-center rounded-full bg-[#f1f3f4] px-5 py-2.5 text-sm font-medium text-[#1a73e8] hover:bg-[#e8eaed] hover:text-[#1557b0] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1a73e8]/35"
+                  >
+                    Clear
+                  </button>
+                )}
+              </div>
+              <div className="min-h-px flex-1" aria-hidden="true" />
+            </div>
             <input
               type="text"
               name="company_website"
