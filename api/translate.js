@@ -20,21 +20,21 @@ function corsHeaders(req) {
     };
   }
 
+  const allAllowed = vercel ? [...allowed, vercel] : allowed;
   const ok =
     !origin ||
-    allowed.includes(origin) ||
-    (vercel && origin === vercel);
+    allAllowed.includes(origin);
 
-  if (ok) {
+  if (ok && origin) {
     return {
-      "Access-Control-Allow-Origin": origin || vercel || allowed[0] || "*",
+      "Access-Control-Allow-Origin": origin,
       "Access-Control-Allow-Methods": "POST, OPTIONS",
       "Access-Control-Allow-Headers": "Content-Type",
     };
   }
 
   return {
-    "Access-Control-Allow-Origin": allowed[0] || "",
+    "Access-Control-Allow-Origin": allAllowed[0] || "",
     "Access-Control-Allow-Methods": "POST, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type",
   };
@@ -61,11 +61,10 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: "Invalid JSON" });
   }
 
-  const xf = req.headers["x-forwarded-for"] || req.headers["X-Forwarded-For"];
-  const ip =
-    typeof xf === "string"
-      ? xf.split(",")[0].trim()
-      : req.socket?.remoteAddress || "0.0.0.0";
+  const vercelIp = req.headers["x-vercel-forwarded-for"];
+  const ip = typeof vercelIp === "string" && vercelIp.length
+    ? vercelIp.split(",")[0].trim()
+    : req.socket?.remoteAddress || "0.0.0.0";
 
   try {
     const result = await handleTranslate({

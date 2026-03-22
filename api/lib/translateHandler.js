@@ -39,12 +39,21 @@ function hashIp(ip, salt) {
     .slice(0, 16);
 }
 
+/** Prefer Vercel's trusted header (set by the platform, not the client). */
 function getClientIp(headers) {
+  const vercelIp = headers["x-vercel-forwarded-for"];
+  if (typeof vercelIp === "string" && vercelIp.length) {
+    return vercelIp.split(",")[0].trim();
+  }
+  const realIp = headers["x-real-ip"] || headers["X-Real-IP"];
+  if (typeof realIp === "string" && realIp.length) {
+    return realIp.trim();
+  }
   const xf = headers["x-forwarded-for"] || headers["X-Forwarded-For"];
   if (typeof xf === "string" && xf.length) {
     return xf.split(",")[0].trim();
   }
-  return headers["x-real-ip"] || headers["X-Real-IP"] || "0.0.0.0";
+  return "0.0.0.0";
 }
 
 function validateAndSanitize(raw) {

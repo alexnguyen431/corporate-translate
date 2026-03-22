@@ -4,12 +4,21 @@
  */
 
 const PROMPT_INJECTION = [
-  /ignore\s+(all\s+)?(previous|prior|above)\s+instructions?/i,
+  /ignore\s+(all\s+)?(previous|prior|above|earlier)\s+(instructions?|directives?|rules?|context)/i,
+  /disregard\s+(all\s+)?(previous|prior|above|earlier)\s+(instructions?|directives?|rules?)/i,
+  /(repeat|reveal|show|print|output|display|echo)\s+(your|the|all)?\s*(system\s*prompt|instructions?|rules?|directives?)/i,
   /system\s*prompt/i,
   /\[?\s*INST\s*\]?/i,
   /<\|assistant\|>/i,
+  /<\|system\|>/i,
+  /<\|user\|>/i,
   /you\s+are\s+now\s+(a|an)\s+/i,
   /\bDAN\b.*\bmode\b/i,
+  /\bjailbreak/i,
+  /act\s+as\s+(a\s+|an\s+)?(unrestricted|unfiltered|uncensored)/i,
+  /pretend\s+(you('re|\s+are)\s+)?(not\s+)?(an?\s+)?AI/i,
+  /new\s+instructions?\s*:/i,
+  /\bdo\s+anything\s+now\b/i,
 ];
 
 /** Canned replies — never call Anthropic for these. */
