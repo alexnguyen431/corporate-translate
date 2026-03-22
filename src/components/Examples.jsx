@@ -25,12 +25,12 @@ export default function Examples() {
 
   return (
     <section
-      className="mt-16 sm:mt-20 pt-10 border-t border-[#dadce0] text-left"
+      className="mt-[60px] pt-10 border-t border-[#dadce0] text-left"
       aria-labelledby="suggestions-heading"
     >
       <h2
         id="suggestions-heading"
-        className="text-base sm:text-lg font-semibold text-[#202124] mb-8 text-left"
+        className="text-base sm:text-xl font-semibold text-[#202124] mb-8 text-left"
       >
         Try a suggestion
       </h2>

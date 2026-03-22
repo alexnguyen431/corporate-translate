@@ -279,12 +279,12 @@ export default function Translator() {
         <p className="text-center text-sm text-red-600">{error}</p>
       )}
 
-      <div className="flex justify-center pt-1">
+      <div className="flex justify-center !mt-6">
         <button
           type="button"
           onClick={() => translate()}
           disabled={disabledTranslate}
-          className="min-h-11 px-10 rounded-md bg-[#1a73e8] text-white text-sm font-medium shadow-sm hover:bg-[#1557b0] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="min-h-11 px-10 rounded-[100px] bg-[#1a73e8] text-white text-sm font-medium shadow-sm hover:bg-[#1557b0] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
           {loading ? "Translating…" : "Translate"}
         </button>

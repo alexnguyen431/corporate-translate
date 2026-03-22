@@ -15,8 +15,10 @@ const CORPORATE = "Corporate";
 
 export function LogoWordmark({ className = "" }) {
   return (
-    <span className={`inline-flex items-center gap-1.5 sm:gap-2.5 min-w-0 ${className}`}>
-      <span className="inline-flex shrink-0 font-sans" aria-hidden="true">
+    <span
+      className={`inline-flex items-center gap-1.5 sm:gap-2.5 min-w-0 ${className}`}
+    >
+      <span className="inline-flex shrink-0 items-center font-sans" aria-hidden="true">
         {Array.from(CORPORATE).map((ch, i) => (
           <span
             key={`${ch}-${i}`}
