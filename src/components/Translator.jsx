@@ -17,8 +17,8 @@ import {
 } from "./icons.jsx";
 
 function placeholderFor(direction, DIR) {
-  if (direction === DIR.CTS) return "Paste the corporate speak…";
-  return "Say what you mean, straight up";
+  if (direction === DIR.CTS) return "Paste or type the corporate speak...";
+  return "Say what you mean, straight up...";
 }
 
 export default function Translator() {
