@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/react";
 import Header from "./components/Header.jsx";
 import ModePills from "./components/ModePills.jsx";
 import Translator from "./components/Translator.jsx";
@@ -17,6 +18,7 @@ export default function App() {
         </main>
         <Footer />
       </div>
+      <Analytics />
     </TranslationProvider>
   );
 }
