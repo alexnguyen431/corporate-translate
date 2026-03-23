@@ -1,4 +1,5 @@
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 import Header from "./components/Header.jsx";
 import ModePills from "./components/ModePills.jsx";
 import Translator from "./components/Translator.jsx";
@@ -19,6 +20,7 @@ export default function App() {
         <Footer />
       </div>
       <Analytics />
+      <SpeedInsights />
     </TranslationProvider>
   );
 }
