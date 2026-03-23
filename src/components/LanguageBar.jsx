@@ -1,3 +1,5 @@
+import { IconSwapHoriz } from "./icons.jsx";
+
 function LangChip({ active, onClick, label }) {
   return (
     <button
@@ -71,11 +73,11 @@ export default function LanguageBar({
         <button
           type="button"
           onClick={swapDirection}
-          className="tap-target w-10 h-10 sm:w-11 sm:h-11 rounded-full text-[#5f6368] hover:bg-[#f1f3f4] text-xl sm:text-[22px] leading-none"
+          className="tap-target flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11 rounded-full text-[#5f6368] hover:bg-[#f1f3f4]"
           title="Swap languages"
           aria-label="Swap languages"
         >
-          ⇄
+          <IconSwapHoriz className="w-[22px] h-[22px] sm:w-6 sm:h-6" />
         </button>
       </div>
 
